@@ -23,14 +23,14 @@ async def main():
 
         async def loop():
             while True:
-                for s in symbols:
-                    await trader.trade(s)
+                await asyncio.gather(*(trader.trade(s) for s in symbols))
+                
                 await asyncio.sleep(0.5)
 
         tasks.append(loop())
 
     await asyncio.gather(
-    report_loop(state),  # ✅ ADD THIS BACK
+    report_loop(state),
     *tasks
 )
 
