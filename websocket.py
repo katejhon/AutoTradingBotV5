@@ -1,6 +1,5 @@
 import asyncio, json, websockets
 from logger import log_error, log_info
-from notifier import alert
 
 WS_URL = "wss://wbs.mexc.com/ws"
 
@@ -27,14 +26,21 @@ async def websocket_prices(symbols, cache):
                         msg = await asyncio.wait_for(ws.recv(), timeout=30)
                         data = json.loads(msg)
 
-                        if "d" in data:
-                            cache[data["s"]] = float(data["d"]["p"])
+                        if isinstance(data, dict) and "d" in data:
+                            try:
+                                symbol = data.get("s")
+                                price = float(data["d"].get("c", 0))
+
+                                if symbol and price > 0:
+                                    cache[symbol] = price
+
+                            except Exception:
+                                continue
 
                     except asyncio.TimeoutError:
-                        # keep connection alive
                         await ws.ping()
 
         except Exception as e:
             log_error(f"WS Error: {e}")
-            log_error(f"WebSocket reconnecting...\n{e}")
+            log_error("🔁 Reconnecting WebSocket...")
             await asyncio.sleep(5)
