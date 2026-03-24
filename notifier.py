@@ -4,7 +4,7 @@ from config import *
 bot = Bot(token=TELEGRAM_TOKEN)
 
 async def start():
-    await bot.send_message(chat_id=CHAT_ID, text="🤖 Bot Started (Version 1.0.2")
+    await bot.send_message(chat_id=CHAT_ID, text="🤖 Bot Started (Version 1.0.2)")
 
 async def buy(symbol, price, qty, tp, sl):
     await bot.send_message(chat_id=CHAT_ID, text=f"""✅ BUY
