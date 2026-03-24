@@ -91,8 +91,8 @@ class Trader:
             if "orderId" not in res:
                 raise Exception(res)
 
-            tp = price * 1.1
-            sl = price * 0.9
+            tp = price * 1.01
+            sl = price * 0.99
 
             self.state.positions[symbol] = {
                 "entry": price,
