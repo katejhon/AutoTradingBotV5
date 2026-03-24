@@ -81,4 +81,4 @@ def ai_signal_multi(df1, df5, df15):
 
     total = s1 + (s5 * 1.3) + (s15 * 1.6)
 
-    return total >= 4
+    return total >= 3.5
